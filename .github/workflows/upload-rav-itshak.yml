@@ -1,9 +1,9 @@
-name: '[DEMO] Upload Episode from YouTube To Anchor.Fm'
+name: 'Upload Rav Itshak'
 
 on:
   push:
     paths: 
-      - episode.json
+      - episode-rav-itshak.json
     branches: [main]
 
 jobs:
@@ -14,8 +14,6 @@ jobs:
       - name: Upload Episode from YouTube To Anchor.Fm
         uses: Schrodinger-Hat/youtube-to-anchorfm@v2.4.0
         env:
-          ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL }}
-          ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD }}
-          SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
-          SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
+          ANCHOR_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_ITSHAK }}
+          ANCHOR_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_ITSHAK }}
           EPISODE_PATH: /github/workspace
