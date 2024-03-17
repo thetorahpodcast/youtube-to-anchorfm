@@ -1,0 +1,20 @@
+name: 'Upload Rav Mergui'
+
+on:
+  push:
+    paths: 
+      - episode-rav-mergui.json
+    branches: [main]
+
+jobs:
+  upload_episode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload Episode from YouTube To Anchor.Fm
+        uses: Schrodinger-Hat/youtube-to-anchorfm@v2.4.0
+        env:
+          ANCHOR_LOGIN: false
+          SPOTIFY_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_MERGUI }}
+          SPOTIFY_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_MERGUI }}
+          EPISODE_PATH: /github/workspace
