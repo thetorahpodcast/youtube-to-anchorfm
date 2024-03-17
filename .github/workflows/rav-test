@@ -1,0 +1,20 @@
+name: 'Upload Rav TEST'
+
+on:
+  push:
+    paths: 
+      - episode-rav-TEST.json
+    branches: [main]
+
+jobs:
+  upload_episode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload Episode from YouTube To Anchor.Fm
+        uses: Schrodinger-Hat/youtube-to-anchorfm@v2.4.0
+        env:
+          ANCHOR_LOGIN: false
+          SPOTIFY_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_TEST }}
+          SPOTIFY_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_TEST }}
+          EPISODE_PATH: /github/workspace
