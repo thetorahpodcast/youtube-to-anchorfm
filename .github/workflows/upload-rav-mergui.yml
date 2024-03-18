@@ -3,7 +3,7 @@ name: 'Upload Rav Mergui'
 on:
   push:
     paths: 
-      - episode-rav-mergui.json
+      - episode_rav_mergui.json
     branches: [main]
 
 jobs:
