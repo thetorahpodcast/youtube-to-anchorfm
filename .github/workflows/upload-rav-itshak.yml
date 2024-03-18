@@ -3,7 +3,7 @@ name: 'Upload Rav Itshak'
 on:
   push:
     paths: 
-      - episode-rav-itshak.json
+      - episode_rav_itshak.json
     branches: [main]
 
 jobs:
