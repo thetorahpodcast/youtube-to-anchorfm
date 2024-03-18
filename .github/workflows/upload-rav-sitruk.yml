@@ -1,0 +1,21 @@
+name: 'Upload Rav Sitruk'
+
+on:
+  push:
+    paths: 
+      - episode-rav-sitruk.json
+    branches: [main]
+
+jobs:
+  upload_episode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload Episode from YouTube To Anchor.Fm
+        uses: Schrodinger-Hat/youtube-to-anchorfm@v2.4.0
+        env:
+          ANCHOR_LOGIN: false
+          SPOTIFY_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_SITRUK }}
+          SPOTIFY_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_SITRUK }}
+          EPISODE_PATH: /github/workspace
+          EPISODE_FILE: episode-rav-sitruk.json
