@@ -3,7 +3,7 @@ name: 'Upload Rav Galam'
 on:
   push:
     paths: 
-      - episode-rav-galam.json
+      - episode_rav_galam.json
     branches: [main]
 
 jobs:
