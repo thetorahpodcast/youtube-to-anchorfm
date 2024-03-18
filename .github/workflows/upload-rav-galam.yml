@@ -18,4 +18,4 @@ jobs:
           SPOTIFY_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_GALAM }}
           SPOTIFY_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_GALAM }}
           EPISODE_PATH: /github/workspace
-          EPISODE_FILE: episode-rav-galam.json
+          EPISODE_FILE: episode_rav_galam.json
