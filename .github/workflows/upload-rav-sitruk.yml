@@ -3,7 +3,7 @@ name: 'Upload Rav Sitruk'
 on:
   push:
     paths: 
-      - episode_rav_sitruk.json
+      - episode_rav_yaakov_sitruk.json
     branches: [main]
 
 jobs:
@@ -18,4 +18,4 @@ jobs:
           SPOTIFY_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_SITRUK }}
           SPOTIFY_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_SITRUK }}
           EPISODE_PATH: /github/workspace
-          EPISODE_FILE: episode_rav_sitruk.json
+          EPISODE_FILE: episode_rav_yaakov_sitruk.json
