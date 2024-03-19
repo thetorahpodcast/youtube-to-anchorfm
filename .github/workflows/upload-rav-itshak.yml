@@ -3,7 +3,7 @@ name: 'Upload Rav Itshak'
 on:
   push:
     paths: 
-      - episode_rav_itshak.json
+      - episode_rav_itshak_cohen.json
     branches: [main]
 
 jobs:
@@ -18,4 +18,4 @@ jobs:
           SPOTIFY_EMAIL: ${{ secrets.ANCHOR_EMAIL_RAV_ITSHAK }}
           SPOTIFY_PASSWORD: ${{ secrets.ANCHOR_PASSWORD_RAV_ITSHAK }}
           EPISODE_PATH: /github/workspace
-          EPISODE_FILE: episode_rav_itshak.json
+          EPISODE_FILE: episode_rav_itshak_cohen.json
