@@ -1,9 +1,35 @@
-FROM public.ecr.aws/lambda/nodejs:20
+FROM ubuntu:22.04
 
+ARG FUNCTION_DIR="/src"
+
+
+ARG FUNCTION_DIR
+
+
+# RUN mkdir -p ${FUNCTION_DIR}
+# COPY . ${FUNCTION_DIR}
+# WORKDIR ${FUNCTION_DIR}
+
+
+
+# # Copy in the built dependencies
+# COPY --from=build-image ${FUNCTION_DIR} ${FUNCTION_DIR}
 
   
 RUN apt-get update && apt-get install -y sudo
 RUN apt-get -y upgrade
+
+RUN apt-get install -y \
+    g++ \
+    make \
+    cmake \
+    unzip \
+    libcurl4-openssl-dev 
+
+RUN apt-get install -y build-essential libtool autoconf automake
+
+
+
 RUN apt-get install -y curl
 RUN apt-get install -y ca-certificates curl gnupg
 # install node
@@ -21,11 +47,20 @@ RUN apt-get install ffmpeg -y
 RUN apt-get install chromium-browser -y
 COPY src /src
 COPY package.json /package.json
+# Install Node.js dependencies
 RUN npm install
+RUN npm install aws-lambda-ric
+
+# Required for Node runtimes which use npm@8.6.0+ because
+# by default npm writes logs under /home/.npm and Lambda fs is read-only
+ENV NPM_CONFIG_CACHE=/tmp/.npm
+
 COPY my_handler.js /my_handler.js
 # Copy function code
-COPY index.js ${LAMBDA_TASK_ROOT}
 COPY rav_creds.json /rav_creds.json
 ENV LC_ALL=en_US.UTF-8
+RUN ln -s /usr/bin/npx /usr/local/bin/npx 
+# CMD ['bash']
+ENTRYPOINT ["/usr/local/bin/npx", "aws-lambda-ric"]
 
 CMD [ "my_handler.handler" ]
