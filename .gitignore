@@ -5,3 +5,4 @@ node_modules
 dist/episode*
 .env
 rav_creds.json
+.env-test
