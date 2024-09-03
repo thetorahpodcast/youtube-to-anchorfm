@@ -1,0 +1,22 @@
+name: '[DEMO] Upload Episode from YouTube To Anchor.Fm'
+
+on:
+  push:
+    paths: 
+      - episode_rav_cohen.json
+    branches: [main]
+
+jobs:
+  upload_episode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload Episode from YouTube To Anchor.Fm
+        uses: Schrodinger-Hat/youtube-to-anchorfm@v2.5.0
+        env:
+          ANCHOR_LOGIN: false
+          SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_RAV_COHEN_EMAIL }}
+          SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_RAV_COHEN_PASSWORD }}
+          EPISODE_PATH: /github/workspace
+
+
