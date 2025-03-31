@@ -20,6 +20,8 @@ const defaultValues = {
   THUMBNAIL_FILE_FORMAT: 'jpg',
   THUMBNAIL_FILE_TEMPLATE: 'thumbnail.%(ext)s',
   PUPPETEER_HEADLESS: true,
+  // NOTE: The user agent should probably be updated regularly, for example when updating puppeteer version
+  USER_AGENT: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
 };
 
 const dotEnvVariables = parseDotEnvVariables();
@@ -91,4 +93,5 @@ module.exports = {
     getDotEnvironmentVariable('THUMBNAIL_FILE_FORMAT')
   ),
   PUPPETEER_HEADLESS: getBoolean(getDotEnvironmentVariable('PUPPETEER_HEADLESS')),
+  USER_AGENT: getDotEnvironmentVariable('USER_AGENT'),
 };
