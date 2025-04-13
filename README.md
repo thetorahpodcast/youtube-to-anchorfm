@@ -169,6 +169,26 @@ env:
   SET_PUBLISH_DATE: true
 ```
 
+### Set user agent
+
+We allow setting the user agent with the environment variable `USER_AGENT`.
+
+You can use a browser of your choice to open `https://httpbin.io/user-agent` and view its user agent, then copy that value to set the
+environment variable `USER_AGENT`.
+
+Motivation: the reason we set user agent is to avoid sites to detect that automation is used, for example,
+Spotify might sometimes show different page for login with the default user agent for headless puppeteer.
+
+The default user agent used when puppeteer is launched in a headless mode is:
+
+`Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.0.0 Safari/537.36`
+
+Even though we allow setting a custom user agent, by default, we set the user agent to look something like:
+
+`Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36`.
+
+
+
 ## Multiple shows per repository
 
 It is possible to use a single repository to maintain several shows.
