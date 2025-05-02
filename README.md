@@ -26,8 +26,8 @@ Table of Contents
   * [Multiple shows per repository](#multiple-shows-per-repository)
    * [How can I setup for development and use the script locally?](#how-can-i-setup-for-development-and-use-the-script-locally)
    * [How to upload a YouTube playlist to spotify using this script?](#how-to-upload-a-youtube-playlist-to-spotify-using-this-script)
-* [Contributors](#contributors)
 * [License](#license)
+* [Maintainers](#maintainers)
 
 
 ## How it works
@@ -285,6 +285,37 @@ curl https://scc-youtube.vercel.app/playlist-items/PLoXdlLuaGN8ShASxcE2A4YuSto3A
 
 This must be run on the folder where your episode.json is.
 
-# License
+## License
 
 MIT
+
+## Maintainers
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/TheJoin95">
+          <img src="https://github.com/TheJoin95.png" width="100px;" alt="Miki Lombardi"/>
+          <br />
+          <sub>
+            <b>Miki Lombardi</b>
+          </sub>
+        </a>
+        <br />
+        <span>💻 Maintainer</span>
+      </td>
+      <td align="center">
+        <a href="https://github.com/matevskial">
+          <img src="https://github.com/matevskial.png" width="100px;" alt="Aleksandar Matevski"/>
+          <br />
+          <sub>
+            <b>Aleksandar Matevski</b>
+          </sub>
+        </a>
+        <br />
+        <span>💻 Maintainer</span>
+      </td>
+    </tr>
+  </table>
+</div>
