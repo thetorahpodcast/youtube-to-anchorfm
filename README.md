@@ -305,6 +305,17 @@ MIT
         <br />
         <span>💻 Maintainer</span>
       </td>
+      <td align="center">
+        <a href="https://github.com/matevskial">
+          <img src="https://github.com/matevskial.png" width="100px;" alt="Aleksandar Matevski"/>
+          <br />
+          <sub>
+            <b>Aleksandar Matevski</b>
+          </sub>
+        </a>
+        <br />
+        <span>💻 Maintainer</span>
+      </td>
     </tr>
   </table>
 </div>
