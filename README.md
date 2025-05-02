@@ -288,3 +288,23 @@ This must be run on the folder where your episode.json is.
 # License
 
 MIT
+
+## Maintainers 👨‍💻👩‍💻
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/TheJoin95">
+          <img src="https://github.com/TheJoin95.png" width="100px;" alt="Miki Lombardi"/>
+          <br />
+          <sub>
+            <b>Miki Lombardi</b>
+          </sub>
+        </a>
+        <br />
+        <span>💻 Maintainer</span>
+      </td>
+    </tr>
+  </table>
+</div>
