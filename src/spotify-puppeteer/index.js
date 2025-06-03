@@ -178,29 +178,56 @@ async function postEpisode(youtubeVideoInfo) {
       await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
     }
 
-    await sleepSeconds(1);
-
-    const loginOrContinueButtonSelector = 'button[id="login-button"]';
-
-    await clickSelector(page, loginOrContinueButtonSelector);
+    await clickLoginOrContinueButtonUntilItsNotPresent();
 
     let shouldEnterCode = false;
-    if (!existsPasswordInputField) {
-      try {
-        await waitForText(page, 'Enter the 6-digit code');
-        shouldEnterCode = true;
-      } catch (e) {
-        throw new Error('Unable to log in', { cause: e });
-      }
+    try {
+      await waitForText(page, 'Enter the 6-digit code', { polling: 100 });
+      shouldEnterCode = true;
+    } catch (e) {
+      logger.info('-- Either logged in or error during login attempt');
+      // ignore
     }
 
     if (shouldEnterCode) {
       logger.info('-- Logging in using the option "Log in with a password"');
-      await clickLoginWithAPasswordRepeatedlyUntilItIsActuallyClicked();
+      await clickLoginWithAPasswordRepeatedlyIfErrorOccurs();
       // email is already entered, only the password remains to be entered
       await page.waitForSelector(passwordInputFieldSelector);
       await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
+      await clickLoginOrContinueButtonUntilItsNotPresent();
+    }
+  }
+
+  /**
+   * Sometimes Spotify throws error during logging, clicking the log in or continue button again might help.
+   */
+  async function clickLoginOrContinueButtonUntilItsNotPresent() {
+    await sleepSeconds(1);
+    const loginOrContinueButtonSelector = 'button[id="login-button"]';
+    await page.waitForSelector(loginOrContinueButtonSelector, { visible: true });
+    await clickSelector(page, loginOrContinueButtonSelector);
+
+    const maxClicks = 15;
+    let currentClick = 0;
+    while (currentClick < maxClicks) {
+      const existsError = false;
+      try {
+        await waitForText(page, 'Something went wrong', { timeout: 10 * 1000 });
+      } catch (e) {
+        // ignore
+      }
+      if (!existsError) {
+        break;
+      }
+
+      logger.info(
+        '-- The error "Oops! Something went wrong" happened while logging in. Clicking login or continue button again.'
+      );
       await clickSelector(page, loginOrContinueButtonSelector);
+      currentClick += 1;
+      await sleepSeconds(1);
+      await waitForNavigationOrIgnore(page);
     }
   }
 
@@ -208,12 +235,9 @@ async function postEpisode(youtubeVideoInfo) {
    * Clicking on this button after navigating to this page is not working.
    * That's why we click multiple time until the click is actually working
    * This is a problem with Spotify, not this script or puppeteer.
-   * @returns {Promise<void>}
    */
-  async function clickLoginWithAPasswordRepeatedlyUntilItIsActuallyClicked() {
+  async function clickLoginWithAPasswordRepeatedlyIfErrorOccurs() {
     const loginWithPasswordButtonSelector = '::-p-xpath(//button[contains(text(),"Log in with a password")])';
-    // sleeping to increase the chances that clicking on the Log in with password button works
-    await sleepSeconds(5);
     await page.waitForSelector(loginWithPasswordButtonSelector, { visible: true });
 
     let loginWithPasswordButton = await page.$(loginWithPasswordButtonSelector);
