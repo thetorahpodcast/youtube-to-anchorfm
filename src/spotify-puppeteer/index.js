@@ -160,13 +160,73 @@ async function postEpisode(youtubeVideoInfo) {
   async function spotifyLogin() {
     logger.info('-- Accessing new Spotify login page for podcasts');
     await clickSelector(page, '::-p-xpath(//span[contains(text(), "Continue with Spotify")]/parent::button)');
+    await waitForNavigationOrIgnore(page);
+    // reason: waiting for password field to disappear if spotify does not want to show it
+    await sleepSeconds(2);
     logger.info('-- Logging in');
 
     await page.waitForSelector('#login-username');
     await page.type('#login-username', env.SPOTIFY_EMAIL);
-    await page.type('#login-password', env.SPOTIFY_PASSWORD);
+
+    const passwordInputFieldSelector = '#login-password';
+    const passwordInputField = await page.$(passwordInputFieldSelector);
+    const existsPasswordInputField = !!passwordInputField;
+
+    if (existsPasswordInputField) {
+      await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
+    }
+
     await sleepSeconds(1);
-    await clickSelector(page, 'button[id="login-button"]');
+
+    const loginOrContinueButtonSelector = 'button[id="login-button"]';
+
+    await clickSelector(page, loginOrContinueButtonSelector);
+
+    let shouldEnterCode = false;
+    if (!existsPasswordInputField) {
+      try {
+        await waitForText(page, 'Enter the 6-digit code');
+        shouldEnterCode = true;
+      } catch (e) {
+        throw new Error('Unable to log in', { cause: e });
+      }
+    }
+
+    if (shouldEnterCode) {
+      logger.info('-- Logging in using the option "Log in with a password"');
+      await clickLoginWithAPasswordRepeatedlyUntilItIsActuallyClicked();
+      // email is already entered, only the password remains to be entered
+      await page.waitForSelector(passwordInputFieldSelector);
+      await page.type(passwordInputFieldSelector, env.SPOTIFY_PASSWORD);
+      await clickSelector(page, loginOrContinueButtonSelector);
+    }
+  }
+
+  /**
+   * Clicking on this button after navigating to this page is not working.
+   * That's why we click multiple time until the click is actually working
+   * This is a problem with Spotify, not this script or puppeteer.
+   * @returns {Promise<void>}
+   */
+  async function clickLoginWithAPasswordRepeatedlyUntilItIsActuallyClicked() {
+    const loginWithPasswordButtonSelector = '::-p-xpath(//button[contains(text(),"Log in with a password")])';
+    await page.waitForSelector(loginWithPasswordButtonSelector, { visible: true });
+
+    let loginWithPasswordButton = await page.$(loginWithPasswordButtonSelector);
+    const maxClickTries = 15;
+    let currentClick = 0;
+    while (loginWithPasswordButton) {
+      if (currentClick >= maxClickTries) {
+        throw new Error(
+          `Clicks on button "Log in with a password" exceeded the maximum allowed clicks: ${maxClickTries}`
+        );
+      }
+      currentClick += 1;
+      await sleepSeconds(1);
+      await clickSelector(page, loginWithPasswordButtonSelector);
+      await waitForNavigationOrIgnore(page);
+      loginWithPasswordButton = await page.$(loginWithPasswordButtonSelector);
+    }
   }
 
   function acceptSpotifyAuth() {
@@ -336,6 +396,19 @@ function selectAll(page, selector) {
     selection.removeAllRanges();
     selection.addRange(range);
   }, selector);
+}
+
+async function waitForText(page, text, options = {}) {
+  await page.waitForFunction(`document.querySelector("body").innerText.includes("${text}")`, options);
+}
+
+async function waitForNavigationOrIgnore(page) {
+  try {
+    await page.waitForNavigation();
+  } catch (err) {
+    return false;
+  }
+  return true;
 }
 
 module.exports = {
