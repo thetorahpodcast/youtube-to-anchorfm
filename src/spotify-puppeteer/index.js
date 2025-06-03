@@ -212,6 +212,8 @@ async function postEpisode(youtubeVideoInfo) {
    */
   async function clickLoginWithAPasswordRepeatedlyUntilItIsActuallyClicked() {
     const loginWithPasswordButtonSelector = '::-p-xpath(//button[contains(text(),"Log in with a password")])';
+    // sleeping to increase the chances that clicking on the Log in with password button works
+    await sleepSeconds(5);
     await page.waitForSelector(loginWithPasswordButtonSelector, { visible: true });
 
     let loginWithPasswordButton = await page.$(loginWithPasswordButtonSelector);
