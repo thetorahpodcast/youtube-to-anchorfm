@@ -290,7 +290,7 @@ async function postEpisode(youtubeVideoInfo) {
       await clickSelector(page, '::-p-xpath(//span[text()="Save"]/parent::button)');
 
       logger.info('-- Waiting for uploaded episode art to be saved');
-      await page.waitForSelector('::-p-xpath(//div[@aria-label="image uploader"])', {
+      await page.waitForSelector('::-p-xpath(//div[@data-encore-id="dialogConfirmation"])', {
         hidden: true,
         timeout: env.UPLOAD_TIMEOUT,
       });
