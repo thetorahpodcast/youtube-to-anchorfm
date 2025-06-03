@@ -111,12 +111,14 @@ async function postEpisode(youtubeVideoInfo) {
 
   async function openNewPage(url) {
     const newPage = await browser.newPage();
-    /* The reason we set user agent is to avoid sites to detect that automation is used.
-     * For example, Spotify might sometimes show different page for login with the default user agent for headless puppeteer.
+    /* The reason we might set user agent is to avoid sites to detect that automation is used.
      * The default user agent for headless puppeteer looks something like:
      * Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.0.0 Safari/537.36
+     * We will set a custom user agent only if it is defined
      */
-    await newPage.setUserAgent(env.USER_AGENT);
+    if (env.USER_AGENT) {
+      await newPage.setUserAgent(env.USER_AGENT);
+    }
     await newPage.goto(url);
     await newPage.setViewport({ width: 2560, height: 1440 });
     return newPage;
