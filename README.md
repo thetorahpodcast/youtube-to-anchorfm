@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Upload Episode from YouTube To Spotify
-        uses: Schroedinger-Hat/youtube-to-spotify@v2.5.0
+        uses: Schroedinger-Hat/youtube-to-spotify@v2.6.0
         env:
           SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL }}
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
@@ -226,7 +226,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Upload Episode from YouTube To Spotify
-        uses: Schrodinger-Hat/youtube-to-spotify@v2.5.0
+        uses: Schrodinger-Hat/youtube-to-spotify@v2.6.0
         env:
           SPOTIFY_EMAIL: ${{ secrets.SPOTIFY_EMAIL_GREATNEWS }}  # OR secrets.SPOTIFY_EMAIL_SADNEWS
           SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD_GREATNEWS }}  # OR secrets.SPOTIFY_PASSWORD_SADNEWS
